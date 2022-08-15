@@ -21,17 +21,13 @@ Create a Twitter App via [Twitter Developer Portal](https://developer.twitter.co
 <br>
 Make sure that your Twitter App have permission to both `READ & WRITE` otherwise you will get a `403 forbidden error` 
 
-Fill in your app's keys in [config.json](https://github.com/chilipolygon/FlightTrackBot-Twitter/blob/main/config.json)
-```json
-{
-    "twitter": {
-        "API_KEY": "###",
-        "API_KEY_SECRET": "###",
-        "ACCESS_TOKEN": "###",
-        "ACCESS_TOKEN_SECRET": "###",
-        "BEARER_TOKEN": "###"
-    }
-}
+Fill in your app's keys in [.env](https://github.com/chilipolygon/FlightTrackBot-Twitter/blob/master/.env)
+```shell
+API_KEY = 12345
+API_KEY_SECRET = 12345
+ACCESS_TOKEN = 12345
+ACCESS_TOKEN_SECRET = 12345
+BEARER_TOKEN = 12345
 ```
 
 After that, install the requriments in [requirement.txt](https://github.com/chilipolygon/FlightTrackBot-Twitter/blob/main/requirements.txt)
