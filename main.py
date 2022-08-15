@@ -117,7 +117,7 @@ https://flightaware.com/live/flight/{self.icaoURL}"""
                         self.log(tweet)
                         self.processTweet(tweet)
                 self.log(f'Monitoring.. {datetime.now().strftime("%H:%M:%S")}')
-                time.sleep(5)
+                time.sleep(10)
             except KeyboardInterrupt:
                 sys.exit()
 
