@@ -92,8 +92,12 @@ Current Altitude: {data['alt']}
         
     def processTweet(self, tweet):
         try:
-            if tweet.in_reply_to_user_id is None:
-                flight_number = re.findall('(?<=TrackFlightBot\s)(\w+)', tweet.text)[0]
+            if tweet:
+                if tweet.text[0] == '@':
+                    flight_number= tweet.text.split(" ")[1]
+                else:
+                    flight_number = re.findall('(?:TrackFlightBot\s)(\w+)', str(tweet.text))[0]
+                
                 self.log(flight_number)
                 flightConfig = self.searchFlight(flight_number)
                 replyContent = self.replyDraft(flightConfig)
