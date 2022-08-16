@@ -2,6 +2,7 @@ import json
 import re
 import time
 import tweepy
+import requests
 from datetime import datetime, timezone
 from FlightRadar24.api import FlightRadar24API
 import sys
@@ -73,24 +74,32 @@ class FlightTrackerBot():
         if not data:
             return "There was no flight number found or the flight is not active at the moment."
         
+        r = requests.get(f'https://flightaware.com/live/flight/{self.icaoURL}')    
+        if "FlightAware couldn't find flight tracking data for" in r.text:
+            flightMap = ""
+        else:
+            flightMap = f'https://flightaware.com/live/flight/{self.icaoURL}'
+
         content = f"""{data['name']} {data['number']}:
 Departure: {data['dep']}
 Departure time: {data['depTime']}
 Destination: {data['des']}
 Arrival time: {data['eta']}
 Current Altitude: {data['alt']}
-https://flightaware.com/live/flight/{self.icaoURL}"""
+{flightMap}"""
 
         return content
         
     def processTweet(self, tweet):
         try:
-            if tweet.in_reply_to_user_id is None and len(tweet.text.split(" ")) > 1:
+            # if tweet.in_reply_to_user_id is None and len(tweet.text.split(" ")) > 1:
+            if tweet:
                 flight_number = tweet.text.split(" ")[1]
+                print(flight_number)
                 flightConfig = self.searchFlight(flight_number)
                 replyContent = self.replyDraft(flightConfig)
                 self.publishReply(tweet.id, replyContent)
-                self.client_id = tweet.id
+                self.mention_id = tweet.id
             else:
                 self.mention_id = tweet.id
         except Exception as e:
@@ -113,9 +122,12 @@ https://flightaware.com/live/flight/{self.icaoURL}"""
             try:
                 mentions = self.client.get_users_mentions(self.client_id, since_id=self.mention_id, expansions=["in_reply_to_user_id"])
                 if mentions.data:
-                    for tweet in mentions.data:
-                        self.log(tweet)
-                        self.processTweet(tweet)
+                    try:
+                        for tweet in mentions.data:
+                            self.log(tweet)
+                            self.processTweet(tweet)
+                    except Exception as e:
+                        self.log(e)
                 self.log(f'Monitoring.. {datetime.now().strftime("%H:%M:%S")}')
                 time.sleep(10)
             except KeyboardInterrupt:
