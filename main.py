@@ -92,8 +92,7 @@ Current Altitude: {data['alt']}
         
     def processTweet(self, tweet):
         try:
-            # if tweet.in_reply_to_user_id is None and len(tweet.text.split(" ")) > 1:
-            if tweet:
+            if tweet.in_reply_to_user_id is None:
                 flight_number = tweet.text.split(" ")[1]
                 print(flight_number)
                 flightConfig = self.searchFlight(flight_number)
