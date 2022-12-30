@@ -1,5 +1,7 @@
 # FlightTrackBot-Twitter
 
+UPDATE: Due to a lack of funds, I had to shut down the hosting server. It's a sad day, but such is life. At least I can now focus on finding a new source of income.
+
 
 This bot will tweets information about flights based on their numbers. <br>
 Use it by tagging it with [@TrackFlightBot](https://twitter.com/TrackFlightBot) and following it with a flight number like this: `/@TrackFlightBot AA127`
